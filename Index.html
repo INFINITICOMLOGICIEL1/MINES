@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Diamants</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            color: #333;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-template-rows: repeat(5, 50px);
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            background-color: #4caf50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            border-radius: 5px;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #timer {
+            margin-top: 10px;
+            font-size: 20px;
+            color: red;
+        }
+        #resetBtn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>               MINES BY INFINITI COM LOGICIEL</h1>
+    <div id="grid"></div>
+    <div id="status"></div>
+    <div id="timer"></div>
+    <button id="resetBtn">Relancer le Jeu</button>
+    <script>
+        const gridSize = 5;
+        const diamondCount = 4;
+        let grid;
+
+        function initGame() {
+            grid = Array(gridSize).fill().map(() => Array(gridSize).fill('🟦'));
+            placeDiamonds();
+            createGrid();
+            document.getElementById('status').innerText = 'Le jeu commence !';
+            document.getElementById('timer').innerText = '';
+        }
+
+        function placeDiamonds() {
+            let placedDiamonds = 0;
+            while (placedDiamonds < diamondCount) {
+                const x = Math.floor(Math.random() * gridSize);
+                const y = Math.floor(Math.random() * gridSize);
+                if (grid[x][y] !== '💎') {
+                    grid[x][y] = '💎';
+                    placedDiamonds++;
+                }
+            }
+        }
+
+        function createGrid() {
+            const gridElement = document.getElementById('grid');
+            gridElement.innerHTML = '';
+            for (let x = 0; x < gridSize; x++) {
+                for (let y = 0; y < gridSize; y++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.innerText = grid[x][y];
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', initGame);
+
+        initGame(); // Initialisation du jeu au chargement
+    </script>
+</body>
+</html>
